@@ -13,7 +13,8 @@ export default new Vuex.Store({
             reMark: '',
             opertionType: 0
         },
-        isEdit: 1
+        isEdit: 1,
+        user: JSON.parse(localStorage.getItem('user')) || {},
     },
     mutations: {
         setPay(state, n) {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
         },
         setEdit(state, n) {
             state.isEdit = n;
+        },
+        setUser(state, n) {
+            state.user = n;
         }
     },
     actions: {},

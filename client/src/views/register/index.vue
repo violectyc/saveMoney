@@ -21,6 +21,8 @@
 </template>
 
 <script>
+    import {registerUser} from '../../service'
+
     export default {
         name: "register",
         data() {
@@ -41,7 +43,6 @@
                             min: 6, max: 12, message: '长度到6到12个字符', trigger: 'blur'
                         }
                     ]
-
                 }
             }
         },
@@ -49,9 +50,29 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        console.log(this.ruleForm);
+                        registerUser(this.ruleForm).then(res => {
+                            const {errCode, token, data, msg} = res.data;
+                            if (errCode === 0) {
+                                this.$store.commit('setUser', data);
+                                localStorage.setItem('token', token);
+                                localStorage.setItem('user',JSON.stringify(data));
+                                this.$router.push('/');
+                                this.$message({
+                                    type: 'success',
+                                    message: msg
+                                })
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: msg
+                                });
+                            }
+                        }).catch(err => {
+
+                        })
                     } else {
-                        console.log('error submit!!');
+
                         return false;
                     }
                 });

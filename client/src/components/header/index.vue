@@ -3,7 +3,7 @@
         <div class="avatar">
             <el-avatar
                     :size="50"
-                    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    :src="user.Avatar"
             ></el-avatar>
             <el-dropdown trigger="click" @command="handleCommand">
         <span class="el-dropdown-link">
@@ -16,10 +16,14 @@
         </div>
     </div>
 </template>
-
 <script>
+    import {mapState} from 'vuex';
+
     export default {
         name: "NavHeader",
+        computed:{
+        ...mapState(['user'])
+        },
         methods: {
             handleCommand(command) {
                 console.log(command);

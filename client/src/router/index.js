@@ -24,7 +24,7 @@ const routes = [
                 name: 'me',
                 component: () => import('../views/me')
             }, {
-                path: '*',
+                path: '/',
                 redirect: '/home'
             }
         ]

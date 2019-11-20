@@ -18,6 +18,9 @@
 </template>
 
 <script>
+    import {loginUser} from "../../service";
+    import {mapMutations} from 'vuex';
+
     export default {
         name: "login",
         data() {
@@ -45,7 +48,26 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        loginUser(this.ruleForm).then(res => {
+                            const {errCode, token, data, msg} = res.data;
+                            if (errCode === 0) {
+                                this.$store.commit('setUser', data);
+                                localStorage.setItem('token', token);
+                                localStorage.setItem('user',JSON.stringify(data));
+                                this.$router.push('/');
+                                this.$message({
+                                    type: 'success',
+                                    message: msg
+                                })
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: msg
+                                });
+                            }
+                        }).catch(err => {
+                            console.log(err);
+                        })
                     } else {
                         console.log('error submit!!');
                         return false;
