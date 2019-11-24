@@ -21,12 +21,18 @@
 
     export default {
         name: "NavHeader",
-        computed:{
-        ...mapState(['user'])
+        computed: {
+            ...mapState(['user'])
         },
         methods: {
             handleCommand(command) {
-                console.log(command);
+                if (command === 'logout') {
+                    window.localStorage.removeItem('token');
+                    window.localStorage.removeItem('user');
+                    this.$store.commit('setUser', {});
+                    this.$router.replace('/login');
+
+                }
             }
         }
     };

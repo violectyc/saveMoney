@@ -25,11 +25,19 @@ router.post('/add', async (req, res, next) => {
 
 router.post('/getRecordList', async (req, res, next) => {
     try {
-        const result = await Record.find().sort({Created: -1}).exec();
-        res.send({
+        const {
+            currentPage,
+            pageSize,
+        } = req.body;
+        const skip = (currentPage - 1) * pageSize;
+        const total = await Record.countDocuments().exec();
+        const result = await Record.find().skip(skip).limit(pageSize).sort({updated: -1}).exec();
+        await res.send({
             errCode: 0,
             msg: '',
-            data: result
+            data: result,
+            total: total,
+            pageSize: pageSize
         })
     } catch (e) {
         res.send({

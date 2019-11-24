@@ -2,7 +2,7 @@
     <div class="wrap">
         <el-form label-width="80px">
             <el-form-item label="支出金额">
-                <el-input v-model="pay.payNumber" clearable></el-input>
+                <el-input v-model="pay.payNumber" placeholder="0" clearable></el-input>
             </el-form-item>
             <el-form-item label="支付类型">
                 <el-radio-group v-model="pay.payType">

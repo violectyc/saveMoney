@@ -34,14 +34,18 @@
             }
         },
         watch: {
-            '$route': function (n) {
-                if (n.path === '/home') {
-                    this.activeIndex = "1";
-                } else if (n.path === '/booking') {
-                    this.activeIndex = "2"
-                } else if (n.path === '/me') {
-                    this.activeIndex = "3"
-                }
+            $route: {
+                handler: function (n) {
+                    if (n.path === '/home') {
+                        this.activeIndex = "1";
+                    } else if (n.path === '/booking') {
+                        this.activeIndex = "2"
+                    } else if (n.path === '/me') {
+                        this.activeIndex = "3"
+                    }
+                },
+                deep: true,
+                immediate:true
             }
         }
     }

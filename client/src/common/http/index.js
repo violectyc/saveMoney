@@ -1,8 +1,8 @@
 import axios from 'axios';
-// import router from "../../router";
-// import store from '../../store';
+import router from "../../router";
+import store from '../../store';
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "http://localhost:3001";
 // axios.defaults.withCredentials = true;
 // 请求拦截
 axios.interceptors.request.use(
@@ -28,9 +28,10 @@ axios.interceptors.response.use(
         const {status} = error.response;
         if (status === 401) {
             // 清除token
-            // localStorage.removeItem("eleToken");
-            // store.commit('setUser', null);
-            // router.push('/about/login');
+            localStorage.removeItem("token");
+            store.commit('setUser', null);
+            router.push('/login');
+            return ;
         }
         return Promise.reject(error);
     }

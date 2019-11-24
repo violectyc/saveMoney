@@ -61,6 +61,13 @@
                     </el-table-column>
                 </el-table>
             </div>
+            <div class="pagination">
+                <el-pagination
+                        background
+                        layout="prev, pager, next" :current-page.sync="currentPage"
+                        :total="total" @current-change="handleCurrentChange" :page-size="pageSize">
+                </el-pagination>
+            </div>
         </el-card>
         <MyDialog :dialogFormVisible="dialogFormVisible" @handleClose="handleClose"/>
     </div>
@@ -76,7 +83,10 @@
         data() {
             return {
                 dialogFormVisible: false,
-                tableData: []
+                tableData: [],
+                total: 0,
+                currentPage: 1,
+                pageSize: 10
             }
         },
         components: {
@@ -140,11 +150,17 @@
                 });
             },
             _getRecordList() {
-                getRecordList().then(res => {
-                    const {errCode, msg, data} = res.data;
+                const parm = {
+                    total: this.total,
+                    currentPage: this.currentPage,
+                    pageSize: this.pageSize
+                };
+                getRecordList(parm).then(res => {
+                    const {errCode, msg, data,total} = res.data;
                     if (errCode === 0) {
                         console.log(data);
                         this.tableData = data;
+                        this.total=total;
                     } else {
                         this.$message({
                             message: msg,
@@ -152,6 +168,11 @@
                         });
                     }
                 })
+            },
+
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                this._getRecordList();
             }
         }
     }
@@ -173,6 +194,11 @@
             height: 10px;
             background: red;
             border-radius: 50%;
+        }
+        .pagination{
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px 0;
         }
     }
 </style>

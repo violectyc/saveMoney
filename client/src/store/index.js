@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         pay: {
-            payNumber: 0,
+            payNumber: null,
             payMethod: '',
             payType: '',
             Created: new Date(new Date().getTime()),
